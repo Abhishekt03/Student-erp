@@ -18,40 +18,41 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.erp.student_erp.entity.User;
 import com.erp.student_erp.repository.UserRepository;
-import com.erp.student_erp.userDTO.ProfileResponse;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/profile")
-public class ProfileController {
+@RequestMapping("/api/teacher/profile")
+public class TeacherProfileController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    // ✅ PROFILE DETAILS
+    // ✅ THIS CONSTRUCTOR IS MANDATORY
+    public TeacherProfileController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping
     public ResponseEntity<?> profile(Authentication auth) {
 
-        User u = userRepository.findByEmail(auth.getName()).orElseThrow();
+        User user = userRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Map<String, Object> res = new HashMap<>();
-        res.put("id", u.getId());
-        res.put("name", u.getName());
-        res.put("email", u.getEmail());
-        res.put("role", u.getRole());
-        res.put("dob", u.getDob());
-        res.put("phone", u.getPhone());
-        res.put("address", u.getAddress());
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", user.getId());
+        response.put("name", user.getName());
+        response.put("email", user.getEmail());
+        response.put("role", user.getRole());
+        response.put("dob", user.getDob());
+        response.put("phone", user.getPhone());
+        response.put("address", user.getAddress());
 
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(response);
     }
 
-    // ✅ GET PHOTO
     @GetMapping("/photo")
     public ResponseEntity<byte[]> getPhoto(Authentication auth) throws IOException {
 
-        User user = userRepository.findByEmail(auth.getName()).orElseThrow();
+        User user = userRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         byte[] photo = user.getPhoto();
 
@@ -66,16 +67,17 @@ public class ProfileController {
                 .body(photo);
     }
 
-    // ✅ UPLOAD PHOTO
     @PostMapping("/photo")
-    public ResponseEntity<?> upload(
+    public ResponseEntity<?> uploadPhoto(
             @RequestParam("photo") MultipartFile file,
             Authentication auth) throws IOException {
 
-        User user = userRepository.findByEmail(auth.getName()).orElseThrow();
+        User user = userRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         user.setPhoto(file.getBytes());
         userRepository.save(user);
 
-        return ResponseEntity.ok("Photo updated");
+        return ResponseEntity.ok("Photo updated successfully");
     }
 }

@@ -158,44 +158,49 @@ document.addEventListener("DOMContentLoaded", () => {
             "Authorization": "Bearer " + localStorage.getItem("token")
         }
     })
-    
     .then(res => res.json())
     .then(data => {
 
         console.log("TIMETABLE DATA 👉", data);
-    
-    
-        const tbody = document.getElementById("timetableBody");
-        
-       
 
-        if (!tbody) return;
+        const container = document.getElementById("timetableBody");
+        if (!container) return;
 
-
-        tbody.innerHTML = "";
-        
+        container.innerHTML = "";
 
         if (!data || data.length === 0) {
-            tbody.innerHTML =
-              `<tr><td colspan="4">No timetable found</td></tr>`;
+            container.innerHTML = `<div class="loading">No timetable found</div>`;
             return;
         }
 
         data.forEach(t => {
-            tbody.innerHTML += `
-                <tr>
-                    <td>${t.courseTitle}</td>
+            container.innerHTML += `
+                <div class="course-card">
 
-                    <td>${t.day}</td>
-                    <td>${t.startTime} - ${t.endTime}</td>
-                    <td>${t.room}</td>
-                </tr>
+                    <div class="course-header">
+                        <div class="course-name">${t.course}</div>
+                        <div class="course-day">${t.day}</div>
+                    </div>
+
+                    <div class="course-details">
+                        <div class="detail-box">
+                            <span>Time</span>
+                            <strong>${t.startTime} - ${t.endTime}</strong>
+                        </div>
+
+                        <div class="detail-box">
+                            <span>Room</span>
+                            <strong>${t.room}</strong>
+                        </div>
+                    </div>
+
+                </div>
             `;
         });
-    })
-    .catch(err => console.error(err));
-});
 
+    })
+    .catch(err => console.error("TIMETABLE ERROR ❌", err));
+});
 
 function logout() {
     localStorage.clear();

@@ -54,13 +54,15 @@ public class SecurityConfig {
                     "/images/**",
                     "/api/auth/**",
                     "/favicon.ico"
+                    
                 ).permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
 
-                .requestMatchers("/api/student/**").hasRole("STUDENT")
-                .requestMatchers("/api/teacher/**").hasRole("TEACHER")
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/profile").authenticated()
+                .requestMatchers("/api/teacher/**").hasAuthority("ROLE_TEACHER")
+                .requestMatchers("/api/student/**").hasAuthority("ROLE_STUDENT")
+                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/favicon.ico").permitAll()
+
 
                 .anyRequest().authenticated()
             )

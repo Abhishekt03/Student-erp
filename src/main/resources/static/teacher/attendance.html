@@ -6,6 +6,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ================= THEME VARIABLES ================= */
+:root{
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --text:#1f2937;
+    --primary:#1e3c72;
+    --secondary:#2a5298;
+    --border:#d1d5db;
+    --row:#f8f9ff;
+    --hover:#eef2ff;
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --primary:#38bdf8;
+    --secondary:#0ea5e9;
+    --border:#334155;
+    --row:#020617;
+    --hover:#1e40af;
+}
+
+/* ================= RESET ================= */
 *{
     margin:0;
     padding:0;
@@ -14,24 +38,39 @@
 }
 
 body{
-    background:#f4f6fb;
+    background:var(--bg);
     min-height:100vh;
     padding:1rem;
+    color:var(--text);
+    transition:.3s;
 }
 
 /* ---------- NAVBAR ---------- */
 .navbar{
     max-width:1000px;
     margin:auto;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
     color:white;
     padding:1rem 1.5rem;
     border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .navbar h2{
     font-size:1.4rem;
+}
+
+.theme-btn{
+    background:rgba(255,255,255,.2);
+    border:none;
+    color:white;
+    padding:.4rem .9rem;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:600;
 }
 
 /* ---------- CONTAINER ---------- */
@@ -42,16 +81,16 @@ body{
 
 /* ---------- CARD ---------- */
 .card{
-    background:white;
+    background:var(--card);
     padding:1.5rem;
     border-radius:14px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
 /* ---------- FORM ---------- */
 label{
     font-weight:600;
-    color:#1e3c72;
+    color:var(--primary);
     display:block;
     margin-bottom:.5rem;
 }
@@ -60,11 +99,18 @@ select{
     width:100%;
     padding:.7rem;
     border-radius:8px;
-    border:1px solid #ccc;
+    border:1px solid var(--border);
     margin-bottom:1.5rem;
     font-size:1rem;
+    background:transparent;
+    color:var(--text);
 }
 
+select:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(56,189,248,.25);
+}
 
 /* ---------- TABLE ---------- */
 .table-wrapper{
@@ -77,7 +123,7 @@ table{
 }
 
 thead{
-    background:#1e3c72;
+    background:var(--primary);
     color:white;
 }
 
@@ -87,16 +133,19 @@ th, td{
 }
 
 tbody tr:nth-child(even){
-    background:#f8f9ff;
+    background:var(--row);
 }
 
 tbody tr:hover{
-    background:#eef2ff;
+    background:var(--hover);
 }
 
 select.status{
     padding:.4rem;
     border-radius:6px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
 }
 
 /* ---------- MOBILE VIEW ---------- */
@@ -110,13 +159,12 @@ select.status{
     }
 
     tr{
-        background:white;
+        background:var(--card);
         margin-bottom:1rem;
         border-radius:12px;
-        box-shadow:0 4px 12px rgba(0,0,0,0.1);
+        box-shadow:0 6px 14px rgba(0,0,0,0.15);
         padding:.8rem;
     }
- 
 
     td{
         text-align:right;
@@ -129,7 +177,7 @@ select.status{
         position:absolute;
         left:.6rem;
         font-weight:600;
-        color:#1e3c72;
+        color:var(--primary);
         text-align:left;
     }
 }
@@ -140,45 +188,57 @@ select.status{
 
 <div class="navbar">
     <h2>Mark Attendance</h2>
+    <button class="theme-btn" onclick="toggleTheme()">🌙 / ☀️</button>
 </div>
 
-
 <div class="container">
-
     <div class="card">
-         <label>Select Course</label>
+        <label>Select Course</label>
         <select id="courseSelect" onchange="loadStudents()"></select>
 
         <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="studentTable">
-                <tr>
-                    <td data-label="Name">Loading...</td>
-                    <td data-label="Email">--</td>
-                    <td data-label="Status">
-                        <select class="status">
-                            <option>Present</option>
-                            <option>Absent</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable">
+                    <tr>
+                        <td data-label="Name">Loading...</td>
+                        <td data-label="Email">--</td>
+                        <td data-label="Status">
+                            <select class="status">
+                                <option>Present</option>
+                                <option>Absent</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
     </div>
 </div>
 
 <script src="/js/teacher.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", loadCourses);
+/* THEME TOGGLE */
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+
+/* LOAD SAVED THEME */
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark");
+}
+
+/* EXISTING LOGIC */
+document.addEventListener("DOMContentLoaded", loadCourses);
 </script>
 
 </body>

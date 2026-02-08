@@ -6,7 +6,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ========== RESET ========== */
+/* ===== THEME VARIABLES ===== */
+:root{
+    --bg1:#eef2ff;
+    --bg2:#f8fafc;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --primary:#1e3c72;
+    --success:#16a34a;
+    --danger:#dc2626;
+}
+
+.dark{
+    --bg1:#020617;
+    --bg2:#020617;
+    --card:#0f172a;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --primary:#6366f1;
+}
+
+/* ===== RESET ===== */
 *{
     margin:0;
     padding:0;
@@ -15,11 +36,13 @@
 }
 
 body{
-    background:linear-gradient(135deg,#eef2ff,#f8fafc);
     min-height:100vh;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    transition:.3s;
 }
 
-/* ========== NAVBAR ========== */
+/* ===== NAVBAR ===== */
 .navbar{
     background:linear-gradient(135deg,#1e3c72,#2a5298);
     color:white;
@@ -30,129 +53,127 @@ body{
     flex-wrap:wrap;
 }
 
-.navbar h2{
-    font-size:1.4rem;
+.navbar h2{font-size:1.4rem;}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
 }
 
-.navbar a{
+.nav-actions a{
     color:white;
     text-decoration:none;
-    margin-left:1rem;
-    font-weight:500;
+    padding:.4rem .9rem;
+    border-radius:.5rem;
+    font-weight:600;
 }
 
-.navbar a:hover{
-    text-decoration:underline;
+.nav-actions a:first-child{background:#10b981;}
+.nav-actions a:last-child{background:#ef4444;}
+
+.nav-actions button{
+    border:none;
+    background:#ffffff33;
+    color:white;
+    padding:.4rem .6rem;
+    border-radius:50%;
+    cursor:pointer;
 }
 
-/* ========== CONTAINER ========== */
+/* ===== MAIN ===== */
 .container{
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:1.5rem;
+    padding:2rem 1rem;
 }
 
 .card{
     width:100%;
-    max-width:500px;
-    background:white;
+    max-width:520px;
+    background:var(--card);
     padding:2rem;
-    border-radius:16px;
-    box-shadow:0 15px 40px rgba(0,0,0,0.12);
-    animation:fadeIn .4s ease;
+    border-radius:18px;
+    box-shadow:0 20px 45px rgba(0,0,0,.18);
+    animation:fade .4s ease;
 }
 
-@keyframes fadeIn{
+@keyframes fade{
     from{opacity:0; transform:translateY(20px);}
     to{opacity:1; transform:translateY(0);}
 }
 
 .card h2{
     text-align:center;
-    margin-bottom:1.5rem;
-    color:#1e3c72;
+    margin-bottom:1.8rem;
+    color:var(--primary);
 }
 
-/* ========== FORM ========== */
-.form-group{
+/* ===== FORM ===== */
+.form-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:1rem;
 }
 
 label{
-    font-size:.9rem;
+    font-size:.85rem;
     font-weight:600;
-    color:#555;
-    margin-top:.5rem;
+    color:var(--muted);
 }
 
 input{
     width:100%;
     padding:.75rem;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:1rem;
+    border-radius:12px;
+    border:1px solid #c7c7c7;
+    background:transparent;
+    color:var(--text);
+    font-size:.95rem;
 }
 
 input:focus{
     outline:none;
-    border-color:#1e3c72;
-    box-shadow:0 0 0 3px rgba(30,60,114,0.15);
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(99,102,241,.25);
 }
 
-/* ========== BUTTON ========== */
-button{
+/* ===== BUTTON ===== */
+button.submit{
     width:100%;
-    margin-top:1.5rem;
-    padding:.85rem;
+    margin-top:1.6rem;
+    padding:.9rem;
     border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#28a745,#218838);
+    border-radius:14px;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
     color:white;
     font-size:1rem;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
     transition:.3s;
 }
 
-button:hover{
+button.submit:hover{
     transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,0,0,0.18);
+    box-shadow:0 10px 22px rgba(0,0,0,.25);
 }
 
-/* ========== MESSAGE ========== */
+/* ===== MESSAGE ===== */
 #msg{
     margin-top:1rem;
     text-align:center;
     font-weight:600;
 }
 
-.success{ color:#28a745; }
-.error{ color:#e74c3c; }
+.success{color:var(--success);}
+.error{color:var(--danger);}
 
-/* ========== RESPONSIVE ========== */
+/* ===== RESPONSIVE ===== */
 @media(max-width:600px){
-    .form-group{
-        grid-template-columns:1fr;
-    }
-
-    .card{
-        padding:1.5rem;
-    }
-
-    .navbar{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:.5rem;
-    }
-}
-
-@media(max-width:360px){
-    .card{
-        padding:1.2rem;
-    }
+    .form-grid{grid-template-columns:1fr;}
+    .card{padding:1.6rem;}
+    .navbar{gap:.6rem;}
 }
 </style>
 </head>
@@ -162,7 +183,9 @@ button:hover{
 <!-- NAVBAR -->
 <div class="navbar">
     <h2>Teacher Panel</h2>
-    <div>
+
+    <div class="nav-actions">
+        <button onclick="toggleTheme()">🌙</button>
         <a href="teacher-dashboard.html">Dashboard</a>
         <a href="../login.html" onclick="logout()">Logout</a>
     </div>
@@ -171,9 +194,10 @@ button:hover{
 <!-- MAIN -->
 <div class="container">
     <div class="card">
+
         <h2>Add Student Marks</h2>
 
-        <div class="form-group">
+        <div class="form-grid">
             <div>
                 <label>Student ID</label>
                 <input type="number" id="studentId" placeholder="Student ID">
@@ -195,52 +219,57 @@ button:hover{
             </div>
         </div>
 
-        <button onclick="submitMarks()">Submit Marks</button>
+        <button class="submit" onclick="submitMarks()">Submit Marks</button>
         <p id="msg"></p>
+
     </div>
 </div>
 
 <script>
-function submitMarks() {
+/* ===== THEME ===== */
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+/* ===== SUBMIT MARKS ===== */
+function submitMarks(){
     const token = localStorage.getItem("token");
-    if (!token) {
+    if(!token){
         alert("Please login again");
-        window.location.href = "../login.html";
+        window.location.href="../login.html";
         return;
     }
 
-    const studentId = studentIdInput = document.getElementById("studentId").value;
+    const studentId = document.getElementById("studentId").value;
     const courseId  = document.getElementById("courseId").value;
     const internal  = document.getElementById("internal").value;
     const external  = document.getElementById("external").value;
 
-    fetch("http://localhost:8080/api/teacher/marks", {
-        method: "POST",
-        headers: {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/x-www-form-urlencoded"
+    fetch("http://localhost:8080/api/teacher/marks",{
+        method:"POST",
+        headers:{
+            "Authorization":"Bearer "+token,
+            "Content-Type":"application/x-www-form-urlencoded"
         },
-        body: new URLSearchParams({
-            studentId, courseId, internal, external
-        })
+        body:new URLSearchParams({studentId,courseId,internal,external})
     })
-    .then(res => {
-        if (!res.ok) throw new Error("Failed");
+    .then(res=>{
+        if(!res.ok) throw new Error();
         return res.text();
     })
-    .then(data => {
+    .then(msg=>{
         document.getElementById("msg").innerHTML =
-            "<span class='success'>" + data + "</span>";
+            `<span class="success">${msg}</span>`;
     })
-    .catch(() => {
+    .catch(()=>{
         document.getElementById("msg").innerHTML =
-            "<span class='error'>Error adding marks</span>";
+            `<span class="error">Error adding marks</span>`;
     });
 }
 
+/* ===== LOGOUT ===== */
 function logout(){
     localStorage.clear();
-    window.location.href = "../login.html";
 }
 </script>
 

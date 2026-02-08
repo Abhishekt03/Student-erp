@@ -6,6 +6,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ===== THEME VARIABLES ===== */
+:root{
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --primary:#1e3c72;
+    --secondary:#2a5298;
+    --shadow:rgba(0,0,0,.12);
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --primary:#3b82f6;
+    --secondary:#2563eb;
+    --shadow:rgba(0,0,0,.4);
+}
+
+/* ===== RESET ===== */
 *{
     margin:0;
     padding:0;
@@ -14,158 +36,216 @@
 }
 
 body{
-    background:#f4f6fb;
+    background:var(--bg);
+    color:var(--text);
     min-height:100vh;
     padding:1rem;
+    transition:.3s;
 }
 
-/* ---------- NAVBAR ---------- */
+/* ===== NAVBAR ===== */
 .navbar{
     max-width:1000px;
     margin:auto;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    color:white;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
     padding:1rem 1.5rem;
-    border-radius:12px;
+    border-radius:14px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
 }
 
 .navbar h2{
     font-size:1.4rem;
 }
 
-.navbar a{
-    color:white;
-    text-decoration:none;
+.nav-actions{
+    display:flex;
+    gap:.8rem;
+    align-items:center;
+}
+
+.theme-btn{
+    background:rgba(255,255,255,.25);
+    border:none;
+    color:#fff;
+    padding:.5rem .7rem;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1rem;
+}
+
+.back-btn{
     background:#ff4757;
     padding:.5rem 1.2rem;
-    border-radius:6px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
     font-weight:600;
+}
+
+/* ===== CONTAINER ===== */
+.container{
+    max-width:1000px;
+    margin:2rem auto;
+}
+
+/* ===== COURSE CARD ===== */
+.course-card{
+    background:var(--card);
+    border-radius:16px;
+    padding:1.4rem;
+    margin-bottom:1.4rem;
+    box-shadow:0 8px 22px var(--shadow);
     transition:.3s;
 }
 
-.navbar a:hover{
-    background:#ff2f40;
+.course-card:hover{
+    transform:translateY(-4px);
 }
 
-/* ---------- CONTAINER ---------- */
-.container{
-    max-width:1000px;
-    margin:1.5rem auto;
+/* HEADER */
+.course-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1rem;
 }
 
-/* ---------- CARD ---------- */
-.card{
-    background:white;
-    padding:1.5rem;
-    border-radius:14px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+.course-name{
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--primary);
 }
 
-/* ---------- TABLE ---------- */
-.table-wrapper{
-    overflow-x:auto;
+.course-day{
+    background:rgba(59,130,246,.15);
+    padding:.3rem .8rem;
+    border-radius:20px;
+    font-size:.85rem;
+    font-weight:600;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    border-radius:12px;
-    overflow:hidden;
+/* DETAILS */
+.course-details{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:1rem;
 }
 
-thead{
-    background:#1e3c72;
-    color:white;
-}
-
-th, td{
+.detail-box{
+    background:rgba(0,0,0,.03);
     padding:1rem;
+    border-radius:12px;
+}
+
+body.dark .detail-box{
+    background:rgba(255,255,255,.05);
+}
+
+.detail-box span{
+    font-size:.75rem;
+    color:var(--muted);
+}
+
+.detail-box strong{
+    display:block;
+    margin-top:.3rem;
+    font-size:1rem;
+}
+
+/* EMPTY STATE */
+.loading{
     text-align:center;
+    padding:2rem;
+    color:var(--muted);
 }
 
-tbody tr:nth-child(even){
-    background:#f8f9ff;
-}
-
-tbody tr:hover{
-    background:#eef2ff;
-}
-
-/* ---------- MOBILE VIEW ---------- */
+/* ===== MOBILE ===== */
 @media(max-width:600px){
-    table, thead, tbody, th, td, tr{
-        display:block;
-    }
-
-    thead{
-        display:none;
-    }
-
-    tr{
-        background:white;
-        margin-bottom:1rem;
-        border-radius:12px;
-        box-shadow:0 4px 12px rgba(0,0,0,0.1);
-        padding:.8rem;
-    }
-
-    td{
-        text-align:right;
-        padding:.6rem;
-        position:relative;
-    }
-
-    td::before{
-        content:attr(data-label);
-        position:absolute;
-        left:.6rem;
-        font-weight:600;
-        color:#1e3c72;
-        text-align:left;
-    }
+    .navbar h2{font-size:1.2rem;}
+    .course-header{flex-direction:column;align-items:flex-start;gap:.5rem;}
 }
 </style>
 </head>
 
 <body>
 
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <h2>My Timetable</h2>
-    <a href="student-dashboard.html">Back</a>
-</div>
 
-<div class="container">
-    <div class="card">
-
-        <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Course</th>
-                    <th>Day</th>
-                    <th>Time</th>
-                    <th>Room</th>
-                </tr>
-            </thead>
-            <tbody id="timetableBody">
-                <tr>
-                    <td data-label="Course">Loading...</td>
-                    <td data-label="Day">--</td>
-                    <td data-label="Time">--</td>
-                    <td data-label="Room">--</td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-
+    <div class="nav-actions">
+        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+        <a href="student-dashboard.html" class="back-btn">Back</a>
     </div>
 </div>
 
-<script src="/js/student.js" defer></script>
+<!-- ===== CONTENT ===== -->
+<div class="container" id="timetableBody">
+    <div class="loading">Loading timetable...</div>
+</div>
+
+<script>
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    fetch("http://localhost:8080/api/student/timetable", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        const container = document.getElementById("timetableBody");
+        container.innerHTML = "";
+
+        if (!data || data.length === 0) {
+            container.innerHTML = `<div class="loading">No timetable found</div>`;
+            return;
+        }
+
+        data.forEach(t => {
+            container.innerHTML += `
+                <div class="course-card">
+
+                    <div class="course-header">
+                        <div class="course-name">${t.course}</div>
+                        <div class="course-day">${t.day}</div>
+                    </div>
+
+                    <div class="course-details">
+                        <div class="detail-box">
+                            <span>Time</span>
+                            <strong>${t.startTime} - ${t.endTime}</strong>
+                        </div>
+
+                        <div class="detail-box">
+                            <span>Room</span>
+                            <strong>${t.room}</strong>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+        });
+
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById("timetableBody").innerHTML =
+            `<div class="loading">Error loading timetable</div>`;
+    });
+});
+</script>
 
 </body>
 </html>

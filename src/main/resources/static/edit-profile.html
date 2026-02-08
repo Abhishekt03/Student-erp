@@ -1,114 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Password | Account Settings</title>
-    <link rel="stylesheet" href="/css/profile.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Change Password | Account Security</title>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================= THEME VARIABLES ================= */
+:root{
+    --bg:#f1f5f9;
+    --card:#ffffff;
+    --text:#0f172a;
+    --primary:#2563eb;
+    --secondary:#1e40af;
+    --border:#d1d5db;
+    --input:#f8fafc;
+    --muted:#64748b;
+}
+
+body.dark{
+    --bg:#020617;
+    --card:#0f172a;
+    --text:#f8fafc;
+    --primary:#38bdf8;
+    --secondary:#0ea5e9;
+    --border:#334155;
+    --input:#020617;
+    --muted:#94a3b8;
+}
+
+/* ================= RESET ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:1rem;
+}
+
+/* ================= MAIN ================= */
+.main-content{
+    width:100%;
+    max-width:480px;
+}
+
+.content-header{
+    text-align:center;
+    margin-bottom:1.5rem;
+}
+
+.content-header h1{
+    font-size:1.6rem;
+}
+
+.content-header p{
+    color:var(--muted);
+    font-size:.9rem;
+}
+
+/* ================= CARD ================= */
+.password-card{
+    background:var(--card);
+    padding:2rem;
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.18);
+    animation:fade .4s ease;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(15px)}
+    to{opacity:1; transform:translateY(0)}
+}
+
+.card-header{
+    text-align:center;
+    margin-bottom:1.8rem;
+}
+
+.icon-circle{
+    width:64px;
+    height:64px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto .8rem;
+    color:white;
+    font-size:1.5rem;
+}
+
+/* ================= FORM ================= */
+.form-group{
+    margin-bottom:1.2rem;
+}
+
+label{
+    font-size:.85rem;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:.4rem;
+    margin-bottom:.4rem;
+}
+
+.input-with-icon{
+    position:relative;
+}
+
+input{
+    width:100%;
+    padding:.7rem .9rem;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-size:.9rem;
+}
+
+input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(56,189,248,.25);
+}
+
+.password-toggle{
+    position:absolute;
+    right:.6rem;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    color:var(--muted);
+    cursor:pointer;
+}
+
+.password-hint,
+.password-match{
+    font-size:.75rem;
+    color:var(--muted);
+    margin-top:.25rem;
+}
+
+/* ================= BUTTONS ================= */
+.form-actions{
+    display:flex;
+    gap:.7rem;
+    margin-top:1.5rem;
+}
+
+button{
+    flex:1;
+    padding:.7rem;
+    border:none;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+}
+
+.btn-primary:hover{
+    opacity:.9;
+}
+
+.btn-secondary{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+}
+
+/* ================= THEME TOGGLE ================= */
+.theme-toggle{
+    position:absolute;
+    top:1rem;
+    right:1rem;
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:.4rem .7rem;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:420px){
+    .password-card{
+        padding:1.5rem;
+    }
+}
+</style>
 </head>
+
 <body>
-   
-           
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <div class="content-header">
-                <button class="mobile-menu-btn" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1>Account Security</h1>
-                <p>Change your password and manage security settings</p>
-            </div>
 
-            <div class="password-container">
-                <div class="password-card">
-                    <div class="card-header">
-                        <div class="icon-circle">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h2>Change Password</h2>
-                        <p>Update your password to keep your account secure</p>
-                    </div>
+<button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
 
-                    <div class="password-form">
-                        <div class="form-group">
-                            <label for="oldPassword">
-                                <i class="fas fa-key"></i>
-                                Old Password
-                            </label>
-                            <div class="input-with-icon">
-                                <input 
-                                    type="password" 
-                                    id="oldPassword" 
-                                    placeholder="Enter your current password"
-                                >
-                                <button type="button" class="password-toggle" data-target="oldPassword">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <div class="password-hint">
-                                <i class="fas fa-info-circle"></i>
-                                Enter your current account password
-                            </div>
-                        </div>
+<main class="main-content">
 
-                        <div class="form-group">
-                            <label for="newPassword">
-                                <i class="fas fa-key"></i>
-                                New Password
-                            </label>
-                            <div class="input-with-icon">
-                                <input 
-                                    type="password" 
-                                    id="newPassword" 
-                                    placeholder="Enter your new password"
-                                >
-                                <button type="button" class="password-toggle" data-target="newPassword">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            
-                        </div>
-
-                        <div class="form-group">
-                            <label for="confirmPassword">
-                                <i class="fas fa-key"></i>
-                                Confirm New Password
-                            </label>
-                            <div class="input-with-icon">
-                                <input 
-                                    type="password" 
-                                    id="confirmPassword" 
-                                    placeholder="Re-enter your new password"
-                                >
-                                <button type="button" class="password-toggle" data-target="confirmPassword">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <div class="password-match" id="passwordMatch">
-                                <i class="fas fa-info-circle"></i>
-                                Passwords must match
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button class="btn-primary" onclick="changePassword()">
-                                <i class="fas fa-save"></i>
-                                Update Password
-                            </button>
-                            <button class="btn-secondary" onclick="goBack()">
-                                <i class="fas fa-arrow-left"></i>
-                                Back to Profile
-                            </button>
-                        </div>
-
-                        
+    <div class="content-header">
+        <h1>Account Security</h1>
+        <p>Change your password and manage security</p>
     </div>
 
+    <div class="password-card">
+        <div class="card-header">
+            <div class="icon-circle">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>Change Password</h2>
+            <p class="password-hint">Keep your account secure</p>
+        </div>
 
+        <div class="password-form">
+
+            <div class="form-group">
+                <label><i class="fas fa-key"></i> Old Password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="oldPassword">
+                    <button class="password-toggle" onclick="togglePass('oldPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-key"></i> New Password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="newPassword">
+                    <button class="password-toggle" onclick="togglePass('newPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-key"></i> Confirm Password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="confirmPassword">
+                    <button class="password-toggle" onclick="togglePass('confirmPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="password-match" id="matchMsg">Passwords must match</div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-primary" onclick="changePassword()">Update</button>
+                <button class="btn-secondary" onclick="history.back()">Back</button>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+/* THEME */
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light");
+}
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark");
+}
+
+/* SHOW / HIDE PASSWORD */
+function togglePass(id){
+    const input=document.getElementById(id);
+    input.type=input.type==="password"?"text":"password";
+}
+
+/* CHECK PASSWORD MATCH */
+document.getElementById("confirmPassword").addEventListener("input",()=>{
+    const msg=document.getElementById("matchMsg");
+    msg.style.color=
+        newPassword.value===confirmPassword.value?"green":"var(--muted)";
+});
+
+/* CHANGE PASSWORD (YOUR API LOGIC) */
+function changePassword(){
+    alert("Integrate API here");
+}
+</script>
 <script src="/js/edit-profile.js"></script>
+
 </body>
 </html>

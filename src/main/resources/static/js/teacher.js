@@ -192,7 +192,7 @@ function loadCourses() {
 
 function addTimetable() {
 
-    const courseId = document.getElementById("courseId").value;
+    const courseId = document.getElementById("courseSelect").value;
 
     if (!courseId) {
         alert("Please select a course");

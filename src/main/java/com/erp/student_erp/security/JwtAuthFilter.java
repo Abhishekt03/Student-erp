@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,48 +22,65 @@ import jakarta.servlet.http.HttpServletResponse;
 
 
 
-    @Component
-    public class JwtAuthFilter extends OncePerRequestFilter {
+@Component
+public class JwtAuthFilter extends OncePerRequestFilter {
 
-        @Autowired
-        private JwtService jwtService;
+    @Autowired
+    private JwtService jwtService;
 
-        @Autowired
-        private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-        @Override
-        protected void doFilterInternal(
-                HttpServletRequest request,
-                HttpServletResponse response,
-                FilterChain filterChain)
-                throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
-            final String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
 
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+        System.out.println("URI = " + request.getRequestURI());
+        System.out.println("AUTH HEADER = " + authHeader);
 
-            String token = authHeader.substring(7);
-            String email = jwtService.extractUsername(token);
-            String role = jwtService.extractRole(token); // ROLE_STUDENT / ROLE_TEACHER
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        String token = authHeader.substring(7);
+        String email = jwtService.extractUsername(token);
 
-                UserDetails userDetails =
-                        userDetailsService.loadUserByUsername(email);
+        System.out.println("JWT EMAIL = " + email);
+
+        if (email != null &&
+            SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(email);
+
+            if (jwtService.isTokenValid(token, userDetails)) {
 
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
-                                List.of(new SimpleGrantedAuthority(role))
+                                userDetails.getAuthorities()
                         );
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
 
-            filterChain.doFilter(request, response);
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(authToken);
+
+                System.out.println("AUTH SET SUCCESSFULLY");
+            }
         }
+
+        filterChain.doFilter(request, response);
     }
+}

@@ -1,212 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Profile</title>
+<meta charset="UTF-8">
+<title>My Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 🔴 REQUIRED FOR RESPONSIVENESS -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
-        }
+<style>
+/* ===== THEME VARIABLES ===== */
+:root{
+    --bg:#f5f7fa;
+    --card:#ffffff;
+    --text:#333;
+    --muted:#666;
+    --primary:#1e3c72;
+    --secondary:#2a5298;
+    --shadow:rgba(0,0,0,.08);
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --primary:#3b82f6;
+    --secondary:#2563eb;
+    --shadow:rgba(0,0,0,.45);
+}
 
-        /* ===== PROFILE CARD ===== */
-        .profile-container {
-            width: 100%;
-            max-width: 420px;
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 25px 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-         a{
-    color:white;
-    text-decoration:none;
-    margin-left:1rem;
-    padding:.5rem 1rem;
-    border-radius:6px;
-    background:#ff4757;
-    font-weight:600;
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
     transition:.3s;
 }
 
- a:first-child{
-    background:#00b894;
+/* ===== NAVBAR ===== */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 1.5rem;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
 }
 
- a:hover{
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:1.3rem;
+    font-weight:700;
+}
+
+.actions{
+    display:flex;
+    gap:.8rem;
+}
+
+.nav-btn{
+    color:#fff;
+    text-decoration:none;
+    padding:.45rem .9rem;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.nav-btn:hover{
+    background:rgba(255,255,255,.15);
+}
+
+.logout{
+    background:#ff4757;
+}
+
+.theme-btn{
+    background:rgba(255,255,255,.2);
+    border:none;
+    color:#fff;
+    padding:.45rem .6rem;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-container{
+    max-width:900px;
+    margin:2rem auto;
+    padding:0 1rem;
+}
+
+.profile-card{
+    background:var(--card);
+    border-radius:16px;
+    padding:2rem;
+    box-shadow:0 10px 30px var(--shadow);
+}
+
+/* ===== HEADER ===== */
+.profile-header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+.photo-wrapper{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+    border:4px solid var(--primary);
+}
+
+.photo-wrapper img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.camera-icon{
+    position:absolute;
+    bottom:0;
+    right:0;
+    background:var(--primary);
+    color:#fff;
+    padding:8px;
+    border-radius:50%;
+    font-size:.8rem;
+}
+
+/* ===== INFO GRID ===== */
+.info{
+    margin-top:2rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:1.2rem;
+}
+
+.info-box{
+    background:rgba(59,130,246,.08);
+    padding:1rem;
+    border-radius:10px;
+}
+
+.info-box span{
+    display:block;
+    font-size:.85rem;
+    color:var(--muted);
+}
+
+.info-box strong{
+    font-size:1rem;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.profile-actions{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    margin-top:2rem;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    padding:.6rem 1.2rem;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    text-decoration:none;
+    color:#fff;
+    background:var(--primary);
+    transition:.3s;
+}
+
+.action-btn:hover{
     opacity:.9;
 }
 
-        h2 {
-            margin: 0 0 20px;
-            color: #333;
-        }
-
-        /* ===== PROFILE PHOTO ===== */
-        .photo-wrapper {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 20px;
-            position: relative;
-            border-radius: 50%;
-            overflow: hidden;
-            cursor: pointer;
-            border: 4px solid #667eea;
-        }
-
-        .photo-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .camera-icon {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 36px;
-            height: 36px;
-            background: #667eea;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .camera-icon::before {
-            content: "📷";
-            font-size: 16px;
-        }
-
-        /* ===== INFO SECTION ===== */
-        .info {
-            text-align: left;
-            margin-top: 10px;
-        }
-
-        .info p {
-            margin: 10px 0;
-            font-size: 14px;
-            color: #444;
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 6px;
-        }
-
-        .info b {
-            color: #555;
-            min-width: 90px;
-        }
-
-        .info span {
-            color: #222;
-            font-weight: 500;
-            text-align: right;
-            word-break: break-word;
-        }
-
-        /* ===== LOGOUT BUTTON ===== */
-        button {
-            width: 100%;
-            margin-top: 20px;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: #ff4d4d;
-            color: #fff;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #e63939;
-        }
-
-        /* ===== MOBILE ===== */
-        @media (max-width: 480px) {
-            .profile-container {
-                padding: 20px 15px;
-            }
-
-            .photo-wrapper {
-                width: 110px;
-                height: 110px;
-            }
-
-            .info p {
-                font-size: 13px;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .info span {
-                text-align: left;
-            }
-        }
-
-        /* ===== TABLET ===== */
-        @media (max-width: 768px) {
-            .profile-container {
-                max-width: 90%;
-            }
-        }
-    </style>
+/* ===== MOBILE ===== */
+@media(max-width:600px){
+    .photo-wrapper{
+        width:110px;
+        height:110px;
+    }
+}
+</style>
 </head>
+
 <body>
 
+<header class="navbar">
+    <div class="logo">
+        <i class="fas fa-user"></i> My Profile
+    </div>
+
+    <div class="actions">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeIcon">
+            <i class="fas fa-moon"></i>
+        </button>
+        <a href="student-dashboard.html" class="nav-btn">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="../login.html" class="nav-btn logout" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+    </div>
+</header>
+
 <div class="profile-container">
+    <div class="profile-card">
 
-    <h2>My Profile</h2>
+        <div class="profile-header">
+            <div class="photo-wrapper" onclick="openFilePicker()">
+                <img id="profilePic" src="" alt="Profile Photo">
+                <div class="camera-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <input type="file" id="photoInput" hidden onchange="uploadPhoto()">
+            <h2 id="name" style="margin-top:1rem;">-</h2>
+            <p id="role" style="color:var(--muted)">-</p>
+        </div>
 
-    <!-- Profile Photo -->
-    <div class="photo-wrapper" onclick="openFilePicker()">
-        <img id="profilePic" src="/api/profile/photo" alt="Profile Photo">
-        <div class="camera-icon"></div>
+        <div class="info">
+            <div class="info-box"><span>ID</span><strong id="userId">-</strong></div>
+            
+            <div class="info-box"><span>Email</span><strong id="email">-</strong></div>
+            <div class="info-box"><span>Date of Birth</span><strong id="dob">-</strong></div>
+            <div class="info-box"><span>Phone</span><strong id="phone">-</strong></div>
+            <div class="info-box"><span>Address</span><strong id="address">-</strong></div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="teacher-dashboard.html" class="action-btn">
+                <i class="fas fa-arrow-left"></i> Dashboard
+            </a>
+        </div>
+
     </div>
-    
-
-    <!-- Hidden File Input -->
-    <input type="file" id="photoInput" accept="image/*" hidden onchange="uploadPhoto()">
-
-    <div class="info">
-        <p><b>User ID:</b> <span id="userId">-</span></p>
-        <p><b>User Name:</b> <span id="name">-</span></p>
-        <p><b>Email:</b> <span id="email">-</span></p>
-        <p><b>Role:</b> <span id="role">-</span></p>
-        <p><b>DOB:</b> <span id="dob">-</span></p>
-        <p><b>Phone:</b> <span id="phone">-</span></p>
-        <p><b>Address:</b> <span id="address">-</span></p>
-    </div>
-
-    
-    <div>
-        <a href="teacher-dashboard.html">Dashboard</a>
-        <a href="../login.html" onclick="logout()">Logout</a>
-    </div>
-
 </div>
 
-<script src="/js/profile.js"></script>
+<script src="/js/Tprofil.js"></script>
+
+<script>
+const body = document.body;
+const icon = document.getElementById("themeIcon");
+
+// Load saved theme
+if(localStorage.getItem("theme")==="dark"){
+    body.classList.add("dark");
+    icon.innerHTML='<i class="fas fa-sun"></i>';
+}
+
+function toggleTheme(){
+    body.classList.toggle("dark");
+    if(body.classList.contains("dark")){
+        localStorage.setItem("theme","dark");
+        icon.innerHTML='<i class="fas fa-sun"></i>';
+    }else{
+        localStorage.setItem("theme","light");
+        icon.innerHTML='<i class="fas fa-moon"></i>';
+    }
+}
+</script>
+
 </body>
 </html>

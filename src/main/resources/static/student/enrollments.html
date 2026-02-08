@@ -6,117 +6,183 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ================= THEME VARIABLES ================= */
+:root{
+  --bg:#f4f6f9;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --primary:#1e3c72;
+  --secondary:#2a5298;
+  --row:#f9faff;
+  --success:#22c55e;
+}
+
+body.dark{
+  --bg:#020617;
+  --card:#0f172a;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --primary:#38bdf8;
+  --secondary:#0ea5e9;
+  --row:#020617;
+  --success:#16a34a;
+}
+
+/* ================= RESET ================= */
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    color:#333;
-    min-height:100vh;
-    padding:1rem;
+  background:linear-gradient(135deg,var(--bg),#c7d2fe);
+  min-height:100vh;
+  padding:1rem;
+  color:var(--text);
+  transition:.3s;
 }
 
-/* ---------- HEADER ---------- */
-h2{
-    text-align:center;
-    margin-bottom:1.5rem;
-    color:#1e3c72;
+/* ================= HEADER BAR ================= */
+.header{
+  max-width:900px;
+  margin:0 auto 1.5rem;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  padding:1rem 1.4rem;
+  border-radius:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
 }
 
-/* ---------- TABLE WRAPPER ---------- */
+.header h2{
+  font-size:1.4rem;
+  letter-spacing:.5px;
+}
+
+.header .actions{
+  display:flex;
+  gap:.6rem;
+}
+
+.header a,
+.theme-btn{
+  background:rgba(255,255,255,.2);
+  color:white;
+  padding:.45rem .9rem;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+  border:none;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.header a:hover,
+.theme-btn:hover{
+  opacity:.85;
+}
+
+/* ================= TABLE ================= */
 .table-wrapper{
-    max-width:900px;
-    margin:auto;
-    overflow-x:auto;
+  max-width:900px;
+  margin:auto;
+  overflow-x:auto;
 }
 
-/* ---------- TABLE ---------- */
 table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  width:100%;
+  border-collapse:collapse;
+  background:var(--card);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
 }
 
 thead{
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    color:white;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
 }
 
 th,td{
-    padding:1rem;
-    text-align:center;
+  padding:1rem;
+  text-align:center;
 }
 
 tbody tr:nth-child(even){
-    background:#f9faff;
+  background:var(--row);
 }
 
 tbody tr:hover{
-    background:#eef2ff;
+  background:rgba(99,102,241,.12);
 }
 
-/* ---------- BUTTON ---------- */
+/* ================= BUTTON ================= */
 button{
-    padding:.5rem 1rem;
-    background:#2ecc71;
-    border:none;
-    border-radius:6px;
-    color:white;
-    cursor:pointer;
-    font-weight:600;
-    transition:.3s;
+  padding:.45rem 1rem;
+  background:var(--success);
+  border:none;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+  font-weight:700;
+  transition:.3s;
 }
 
 button:hover{
-    background:#27ae60;
+  transform:scale(1.05);
+  opacity:.9;
 }
 
-/* ---------- MOBILE VIEW ---------- */
+/* ================= MOBILE VIEW ================= */
 @media(max-width:600px){
-    table, thead, tbody, th, td, tr{
-        display:block;
-    }
+  table, thead, tbody, th, td, tr{
+    display:block;
+  }
 
-    thead{
-        display:none;
-    }
+  thead{display:none;}
 
-    tr{
-        margin-bottom:1rem;
-        background:white;
-        border-radius:10px;
-        box-shadow:0 4px 10px rgba(0,0,0,0.08);
-        padding:.8rem;
-    }
+  tr{
+    margin-bottom:1rem;
+    background:var(--card);
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    padding:.8rem;
+  }
 
-    td{
-        text-align:right;
-        padding:.6rem;
-        position:relative;
-    }
+  td{
+    text-align:right;
+    padding:.6rem;
+    position:relative;
+  }
 
-    td::before{
-        content:attr(data-label);
-        position:absolute;
-        left:.6rem;
-        font-weight:600;
-        color:#1e3c72;
-        text-align:left;
-    }
+  td::before{
+    content:attr(data-label);
+    position:absolute;
+    left:.6rem;
+    font-weight:600;
+    color:var(--primary);
+    text-align:left;
+  }
 }
 </style>
+
 </head>
 
 <body>
 
-<h2>Enroll Courses</h2>
+<div class="header">
+  <h2>Enroll Courses</h2>
+
+  <div class="actions">
+    <button class="theme-btn" onclick="toggleTheme()">🌗</button>
+    <a href="student-dashboard.html">⬅ Dashboard</a>
+  </div>
+</div>
 
 <div class="table-wrapper">
 <table>
@@ -136,6 +202,19 @@ button:hover{
 </tbody>
 </table>
 </div>
+<script>
+if(localStorage.theme==="dark"){
+  document.body.classList.add("dark");
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  localStorage.theme = document.body.classList.contains("dark")
+    ? "dark"
+    : "light";
+}
+</script>
+
 
 <script src="../js/student.js"></script>
 <script>loadCourses();</script>

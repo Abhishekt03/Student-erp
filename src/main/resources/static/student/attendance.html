@@ -2,179 +2,203 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My Attendance</title>
+<title>My Attendance | Student ERP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --primary:#4f46e5;
+  --present:#22c55e;
+  --absent:#ef4444;
+}
+
+body.dark{
+  --bg:#020617;
+  --card:#0f172a;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    color:#333;
-    min-height:100vh;
-    padding:1rem;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:1rem;
 }
 
-/* ---------- NAVBAR ---------- */
-.navbar{
-    max-width:1000px;
-    margin:auto;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    color:white;
-    padding:1rem 1.5rem;
-    border-radius:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+/* ===== TOP BAR ===== */
+.topbar{
+  max-width:1100px;
+  margin:auto;
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  color:white;
+  padding:1rem 1.5rem;
+  border-radius:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
 
-.navbar a{
-    color:white;
-    text-decoration:none;
-    background:#ff4757;
-    padding:.5rem 1rem;
-    border-radius:6px;
-    font-weight:600;
-    transition:.3s;
+.topbar .actions{
+  display:flex;
+  gap:.6rem;
 }
 
-.navbar a:hover{
-    background:#ff2f40;
+.topbar a, .theme-toggle{
+  text-decoration:none;
+  background:white;
+  color:#4f46e5;
+  padding:.45rem .9rem;
+  border-radius:8px;
+  font-weight:600;
+  border:none;
+  cursor:pointer;
 }
 
-/* ---------- TABLE WRAPPER ---------- */
+/* ===== TABLE ===== */
 .table-wrapper{
-    max-width:1000px;
-    margin:1.5rem auto;
-    overflow-x:auto;
+  max-width:1100px;
+  margin:1.5rem auto;
+  overflow-x:auto;
 }
 
-/* ---------- TABLE ---------- */
 table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  width:100%;
+  border-collapse:collapse;
+  background:var(--card);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 thead{
-    background:#1e3c72;
-    color:white;
+  background:var(--primary);
+  color:white;
 }
 
-th, td{
-    padding:1rem;
-    text-align:center;
+th,td{
+  padding:1rem;
+  text-align:center;
 }
 
 tbody tr:nth-child(even){
-    background:#f9faff;
+  background:rgba(99,102,241,.05);
 }
 
 tbody tr:hover{
-    background:#eef2ff;
+  background:rgba(99,102,241,.12);
 }
 
-/* ---------- STATUS COLORS ---------- */
 .present{
-    color:#2ecc71;
-    font-weight:700;
+  color:var(--present);
+  font-weight:700;
 }
 
 .absent{
-    color:#e74c3c;
-    font-weight:700;
+  color:var(--absent);
+  font-weight:700;
 }
 
-/* ---------- ATTENDANCE PERCENT ---------- */
+/* ===== PERCENT CARD ===== */
 #attendancePercent{
-    max-width:1000px;
-    margin:1.5rem auto;
-    background:white;
-    padding:1rem;
-    border-radius:10px;
-    text-align:center;
-    font-size:1.2rem;
-    font-weight:700;
-    color:#1e3c72;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  max-width:1100px;
+  margin:1.5rem auto;
+  background:var(--card);
+  padding:1rem;
+  border-radius:12px;
+  text-align:center;
+  font-size:1.3rem;
+  font-weight:700;
+  color:var(--primary);
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-/* ---------- MOBILE VIEW ---------- */
-@media(max-width:600px){
-    table, thead, tbody, th, td, tr{
-        display:block;
-    }
-
-    thead{
-        display:none;
-    }
-
-    tr{
-        margin-bottom:1rem;
-        background:white;
-        border-radius:10px;
-        box-shadow:0 4px 10px rgba(0,0,0,0.08);
-        padding:.8rem;
-    }
-
-    td{
-        text-align:right;
-        padding:.6rem;
-        position:relative;
-    }
-
-    td::before{
-        content:attr(data-label);
-        position:absolute;
-        left:.6rem;
-        font-weight:600;
-        color:#1e3c72;
-        text-align:left;
-    }
+/* ===== MOBILE CARD VIEW ===== */
+@media(max-width:700px){
+  table,thead,tbody,th,td,tr{
+    display:block;
+  }
+  thead{display:none;}
+  tr{
+    background:var(--card);
+    margin-bottom:1rem;
+    border-radius:12px;
+    padding:.8rem;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+  }
+  td{
+    text-align:right;
+    padding:.5rem;
+    position:relative;
+  }
+  td::before{
+    content:attr(data-label);
+    position:absolute;
+    left:.6rem;
+    font-weight:600;
+    color:var(--muted);
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="navbar">
-    <h2>My Attendance</h2>
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <h2>📊 My Attendance</h2>
+  <div class="actions">
+    <button class="theme-toggle" id="themeToggle">🌙</button>
     <a href="student-dashboard.html">Back</a>
+  </div>
 </div>
 
+<!-- ===== TABLE ===== -->
 <div class="table-wrapper">
 <table>
 <thead>
 <tr>
-    <th>Course</th>
-    <th>Date</th>
-    <th>Status</th>
-    <th>Time</th>
+  <th>Course</th>
+  <th>Date</th>
+  <th>Status</th>
+  <th>Time</th>
 </tr>
 </thead>
 <tbody id="attendanceBody">
-<!-- Example JS Row:
-<tr>
-  <td data-label="Course">Java</td>
-  <td data-label="Date">12-02-2026</td>
-  <td data-label="Status" class="present">Present</td>
-  <td data-label="Time">10:00 AM</td>
-</tr>
--->
+<!-- JS will inject rows here -->
 </tbody>
 </table>
 </div>
 
+<!-- ===== PERCENT ===== -->
 <h3 id="attendancePercent">Attendance: 0%</h3>
+
+<script>
+/* DARK / LIGHT MODE */
+const toggle=document.getElementById("themeToggle");
+if(localStorage.theme==="dark"){
+  document.body.classList.add("dark");
+  toggle.textContent="☀️";
+}
+toggle.onclick=()=>{
+  document.body.classList.toggle("dark");
+  const isDark=document.body.classList.contains("dark");
+  localStorage.theme=isDark?"dark":"light";
+  toggle.textContent=isDark?"☀️":"🌙";
+};
+</script>
 
 <script src="../js/student.js"></script>
 

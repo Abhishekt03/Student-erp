@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadProfile() {
-    fetch("/api/student/profile", {
+    fetch("/api/teacher/profile", {
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
         }
@@ -18,16 +18,17 @@ function loadProfile() {
         document.getElementById("name").innerText = d.name;
         document.getElementById("email").innerText = d.email;
         document.getElementById("role").innerText = d.role;
-        document.getElementById("dob").innerText = d.dob;
+         document.getElementById("dob").innerText = d.dob;
           document.getElementById("phone").innerText = d.phone;
            document.getElementById("address").innerText = d.address;
+        
     });
 }
 function openFilePicker() {
     document.getElementById("photoInput").click();
 }
 function loadPhoto() {
-    fetch("/api/student/profile/photo", {
+    fetch("/api/teacher/profile/photo", {
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
         }
@@ -46,7 +47,7 @@ function uploadPhoto() {
     const formData = new FormData();
     formData.append("photo", file);
 
-    fetch("http://localhost:8080/api/student/profile/photo", {
+    fetch("http://localhost:8080/api/teacher/profile/photo", {
         method: "POST",
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")

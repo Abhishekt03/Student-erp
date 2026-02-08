@@ -1,120 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | User Portal</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | Student ERP</title>
+
+<!-- Icons & Font -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --primary:#6366f1;
+}
+
+body.dark{
+  --bg:#030712;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.top-actions{
+  position:fixed;
+  top:20px;
+  left:20px;
+  right:20px;
+  display:flex;
+  justify-content:space-between;
+  pointer-events:none;
+}
+
+.top-actions a,
+.top-actions button{
+  pointer-events:auto;
+}
+
+/* HOME */
+.home-btn{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:var(--card);
+  border:1px solid var(--border);
+  display:grid;
+  place-items:center;
+  color:var(--text);
+  font-size:18px;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.home-btn:hover{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 10px 25px rgba(99,102,241,.45);
+}
+
+/* MODE BUTTON */
+.mode-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  transition:.3s;
+}
+
+.mode-btn:hover{
+  background:var(--primary);
+  color:#fff;
+}
+
+
+.container{
+  width:92%;
+  max-width:1200px;
+  background:var(--card);
+  border-radius:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+/* LEFT */
+.left{
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  color:#fff;
+  padding:60px;
+}
+
+.left h1{
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.left p{
+  opacity:.9;
+  margin-bottom:30px;
+}
+
+.feature{
+  display:flex;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.feature i{
+  font-size:22px;
+}
+
+/* RIGHT */
+.right{
+  padding:50px;
+}
+
+.right h2{
+  font-size:28px;
+}
+
+.right p{
+  color:var(--muted);
+  margin-bottom:25px;
+}
+
+.input-group{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+  background:transparent;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  padding:12px;
+}
+
+.input-group i{
+  color:var(--muted);
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+  width:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:var(--text);
+}
+
+.password-toggle{
+  cursor:pointer;
+}
+
+.terms{
+  font-size:14px;
+  margin:15px 0;
+}
+
+.terms a{
+  color:var(--primary);
+  text-decoration:none;
+}
+
+.register-btn{
+  width:100%;
+  padding:14px;
+  background:var(--primary);
+  border:none;
+  border-radius:12px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.register-btn:hover{
+  opacity:.9;
+}
+
+.login-link{
+  text-align:center;
+  margin-top:20px;
+  font-size:14px;
+}
+
+.login-link a{
+  color:var(--primary);
+  text-decoration:none;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .container{
+    grid-template-columns:1fr;
+  }
+  .left{
+    display:none;
+  }
+}
+</style>
 </head>
+
 <body>
-    <div class="page-container">
-        <!-- Left side with image/illustration -->
-        <div class="illustration-section">
-            <div class="illustration-content">
-                <h1>Join Our Community</h1>
-                <p>Create an account to access exclusive features tailored for students and teachers.</p>
-                <div class="features">
-                    <div class="feature">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Student-specific tools</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <span>Teacher resources</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Secure & private</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Right side with registration form -->
-        <div class="form-section">
-            <div class="form-container">
-                <div class="form-header">
-                    <h2>Create Account</h2>
-                    <p>Fill in your details to register</p>
-                </div>
+<div class="top-actions">
+  <a href="home.html" class="home-btn" title="Home">
+    <i class="fa-solid fa-house"></i>
+  </a>
 
-                <form id="registerForm">
-                
-                <div class="input-group">
-                <div class="input-icon">
-                 <i class="fa fa-address-card" aria-hidden="true"></i>
-                 </div>
-                <input type="text" id="name"  placeholder="Username" required>
-                </div>
-                
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        
-                        <input type="email" id="email" placeholder="Email Address" required>
-                    </div>
+  <button class="mode-btn" id="modeBtn">
+    <i class="fa-solid fa-moon"></i>
+    <span>Dark Mode</span>
+  </button>
+</div>
 
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <input type="password" id="password" placeholder="Password" required>
-                        <div class="password-toggle">
-                            <i class="fas fa-eye" id="togglePassword"></i>
-                        </div>
-                    </div>
 
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-user-tag"></i>
-                        </div>
-                        <select id="role" required>
-                            <option value="">Select Your Role</option>
-                            <option value="STUDENT">Student</option>
-                            <option value="TEACHER">Teacher</option>
-                        </select>
-                    </div>
 
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <input type="date" id="dob">
-                    </div>
+<div class="container">
 
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <input type="tel" id="phone" placeholder="Phone Number">
-                    </div>
+  <!-- LEFT INFO -->
+  <div class="left">
+    <h1>Join Our Community</h1>
+    <p>Create an account to access Student & Teacher ERP tools.</p>
 
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <textarea id="address" placeholder="Address" rows="3"></textarea>
-                    </div>
+    <div class="feature">
+      <i class="fas fa-user-graduate"></i>
+      <span>Student-specific tools</span>
+    </div>
 
-                    <div class="terms-group">
-                        <input type="checkbox" id="terms" required>
-                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></label>
-                    </div>
+    <div class="feature">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <span>Teacher resources</span>
+    </div>
 
-                    <button type="button" class="register-btn" onclick="register()">
-                        <span>Register</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
+    <div class="feature">
+      <i class="fas fa-shield-alt"></i>
+      <span>Secure & Private</span>
+    </div>
+  </div>
 
-                    <div class="login-link">
-                        <p>Already have an account? <a href="login.html">Login here</a></p>
-                    </div>
-                </form></div></div></div>
-<script src="js/register.js"></script>
+  <!-- RIGHT FORM -->
+  <div class="right">
+    <h2>Create Account</h2>
+    <p>Fill in your details to register</p>
+
+    <form>
+      <div class="input-group">
+        <i class="fa fa-address-card"></i>
+        <input type="text" id="name" placeholder="Username" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Email Address" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required>
+        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-user-tag"></i>
+        <select id="role" required>
+          <option value="">Select Role</option>
+          <option value="STUDENT">Student</option>
+          <option value="TEACHER">Teacher</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-calendar-alt"></i>
+        <input type="date" id="dob">
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-phone"></i>
+        <input type="tel" id="phone" placeholder="Phone Number">
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <textarea id="address" rows="2" placeholder="Address"></textarea>
+      </div>
+
+      <div class="terms">
+        <input type="checkbox" required>
+        I agree to the <a href="/images/Student_Teacher_ERP_Terms.pdf">Terms</a> & <a href="/images/Student_ERP_Privacy_Policy.pdf">Privacy Policy</a>
+      </div>
+
+      <button type="button" class="register-btn" onclick="register()">
+        Register <i class="fas fa-arrow-right"></i>
+      </button>
+
+      <div class="login-link">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<script>
+/* MODE TOGGLE */
+const modeBtn=document.getElementById("modeBtn");
+const icon=modeBtn.querySelector("i");
+const text=modeBtn.querySelector("span");
+
+function setMode(dark){
+  document.body.classList.toggle("dark",dark);
+  localStorage.theme=dark?"dark":"light";
+  icon.className=dark?"fa-solid fa-sun":"fa-solid fa-moon";
+  text.textContent=dark?"Light Mode":"Dark Mode";
+}
+
+setMode(localStorage.theme==="dark");
+
+modeBtn.onclick=()=>{
+  setMode(!document.body.classList.contains("dark"));
+};
+const agree=document.getElementById("agree");
+const btn=document.getElementById("registerBtn");
+
+agree.addEventListener("change",()=>{
+  btn.disabled=!agree.checked;
+  btn.classList.toggle("enabled",agree.checked);
+});
+
+
+/* SHOW / HIDE PASSWORD */
+document.getElementById("togglePassword").onclick=()=>{
+  const pwd=document.getElementById("password");
+  pwd.type=pwd.type==="password"?"text":"password";
+};
+</script>
+<script type="text/javascript" src="/js/register.js"></script>
+
 </body>
 </html>

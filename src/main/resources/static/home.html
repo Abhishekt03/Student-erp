@@ -5,105 +5,158 @@
 <title>Student ERP System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ✅ Tailwind CDN -->
+<!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          primary: '#6366f1'
+        }
+      }
+    }
+  }
+</script>
+
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-200 transition-colors duration-300">
 
 <!-- ================= NAVBAR ================= -->
-<header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold text-indigo-600 flex items-center gap-2">
-            🎓 Student ERP
-        </div>
+<header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
 
-        <nav class="hidden md:flex gap-6 font-medium">
-            <a href="#" class="hover:text-indigo-600">Home</a>
-          
-            <a href="login.html"
-               class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-               Login
-            </a>
-        </nav>
+    <div class="text-2xl font-bold text-primary flex items-center gap-2">
+      🎓 Student ERP
     </div>
+
+    <div class="flex items-center gap-4">
+
+      <!-- 🌗 THEME TOGGLE -->
+      <button id="themeToggle"
+        class="bg-gray-200 dark:bg-gray-800 p-2 rounded-lg hover:scale-105 transition"
+        title="Toggle theme">
+        🌙
+      </button>
+
+      
+
+    </div>
+  </div>
 </header>
 
 <!-- ================= HERO ================= -->
-<section class="bg-gradient-to-br from-indigo-600 to-blue-600 text-white">
-    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-            Welcome to Student ERP System
-        </h1>
-        <p class="text-lg md:text-xl mb-8 opacity-90">
-            Manage students, courses, attendance, marks and more — all in one place.
-        </p>
+<section class="bg-gradient-to-br from-indigo-600 to-blue-600 dark:from-gray-900 dark:to-indigo-950 text-white">
+  <div class="max-w-7xl mx-auto px-6 py-24 text-center">
 
-        <div class="flex justify-center gap-4 flex-wrap">
-            <a href="login.html"
-               class="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">
-               Login
-            </a>
-            <a href="register.html"
-               class="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-indigo-600 transition">
-               New User
-            </a>
-        </div>
+    <h1 class="text-4xl md:text-5xl font-bold mb-5">
+      Student ERP System
+    </h1>
+
+    <p class="text-lg md:text-xl text-gray-200 dark:text-gray-400 max-w-2xl mx-auto mb-10">
+      Manage students, courses, attendance, marks, and academic performance
+      from one centralized platform.
+    </p>
+
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="login.html"
+        class="bg-white text-indigo-600 dark:bg-primary dark:text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 transition">
+        Login
+      </a>
+
+      <a href="register.html"
+       class="bg-white text-indigo-600 dark:bg-primary dark:text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 transition">
+                New User
+      </a>
     </div>
+
+  </div>
 </section>
 
 <!-- ================= FEATURES ================= -->
-<section class="py-16">
-    <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
-            ERP Features
-        </h2>
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-6">
 
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <h2 class="text-3xl font-bold text-center mb-14">
+      ERP Features
+    </h2>
 
-            <!-- CARD -->
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition text-center">
-                <div class="text-4xl mb-4">👨‍🎓</div>
-                <h3 class="text-xl font-semibold mb-2">Student Management</h3>
-                <p class="text-gray-600 text-sm">
-                    Manage student profiles, personal details, and academic records.
-                </p>
-            </div>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
 
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition text-center">
-                <div class="text-4xl mb-4">📚</div>
-                <h3 class="text-xl font-semibold mb-2">Course Management</h3>
-                <p class="text-gray-600 text-sm">
-                    Enroll students into courses and track progress easily.
-                </p>
-            </div>
+      <!-- CARD -->
+      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800
+                  p-6 rounded-2xl hover:border-primary hover:-translate-y-1 transition text-center">
+        <div class="text-4xl mb-4">👨‍🎓</div>
+        <h3 class="text-xl font-semibold mb-2">Student Management</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          Manage student profiles, personal details, and academic records.
+        </p>
+      </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition text-center">
-                <div class="text-4xl mb-4">🕒</div>
-                <h3 class="text-xl font-semibold mb-2">Attendance</h3>
-                <p class="text-gray-600 text-sm">
-                    Maintain attendance records digitally with accuracy.
-                </p>
-            </div>
+      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800
+                  p-6 rounded-2xl hover:border-primary hover:-translate-y-1 transition text-center">
+        <div class="text-4xl mb-4">📚</div>
+        <h3 class="text-xl font-semibold mb-2">Course Management</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          Enroll students into courses and track progress easily.
+        </p>
+      </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition text-center">
-                <div class="text-4xl mb-4">📊</div>
-                <h3 class="text-xl font-semibold mb-2">Marks & Results</h3>
-                <p class="text-gray-600 text-sm">
-                    View and manage marks, grades, and performance reports.
-                </p>
-            </div>
+      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800
+                  p-6 rounded-2xl hover:border-primary hover:-translate-y-1 transition text-center">
+        <div class="text-4xl mb-4">🕒</div>
+        <h3 class="text-xl font-semibold mb-2">Attendance</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          Maintain attendance records digitally with accuracy.
+        </p>
+      </div>
 
-        </div>
+      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800
+                  p-6 rounded-2xl hover:border-primary hover:-translate-y-1 transition text-center">
+        <div class="text-4xl mb-4">📊</div>
+        <h3 class="text-xl font-semibold mb-2">Marks & Results</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          View and manage marks, grades, and performance reports.
+        </p>
+      </div>
+
     </div>
+  </div>
 </section>
 
 <!-- ================= FOOTER ================= -->
-<footer class="bg-gray-900 text-gray-300 text-center py-6">
-    <p class="text-sm">
-        © 2026 Student ERP System. All rights reserved.
-    </p>
+<footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 text-center py-6">
+  <p class="text-sm text-gray-600 dark:text-gray-400">
+    © 2026 Student ERP System. All rights reserved.
+  </p>
 </footer>
+
+<!-- ================= THEME SCRIPT ================= -->
+<script>
+  const toggleBtn = document.getElementById("themeToggle");
+  const html = document.documentElement;
+
+  // Load saved theme
+  if (localStorage.theme === "dark") {
+    html.classList.add("dark");
+    toggleBtn.textContent = "☀️";
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    html.classList.toggle("dark");
+
+    if (html.classList.contains("dark")) {
+      localStorage.theme = "dark";
+      toggleBtn.textContent = "☀️";
+    } else {
+      localStorage.theme = "light";
+      toggleBtn.textContent = "🌙";
+    }
+  });
+</script>
 
 </body>
 </html>

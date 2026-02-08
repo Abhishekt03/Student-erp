@@ -27,6 +27,8 @@ function changePassword() {
     .catch(() => alert("Password change failed"));
 }
 
+
+
 function goBack() {
     history.back();
 }
