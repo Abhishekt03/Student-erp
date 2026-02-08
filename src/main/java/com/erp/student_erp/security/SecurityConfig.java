@@ -44,6 +44,10 @@ public class SecurityConfig {
                     "/index.html",
                     "/student/**",
                     "/teacher/**",
+                    "/error",
+                "/favicon.ico",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
                     "/admin/**",
                     "/home.html",
                     "/login.html",
@@ -52,8 +56,7 @@ public class SecurityConfig {
                     "/css/**",
                     "/js/**",
                     "/images/**",
-                    "/api/auth/**",
-                    "/favicon.ico"
+                    "/api/auth/**"
                     
                 ).permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
