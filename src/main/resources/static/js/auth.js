@@ -2,8 +2,9 @@ async function login() {
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const BASE_URL = "https://student-erp1.onrender.com";
 
-    const response = await fetch("http://localhost:8080/api/auth/login", {
+    const response = await fetch("http://https://student-erp1.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
