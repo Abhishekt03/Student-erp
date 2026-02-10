@@ -15,100 +15,51 @@ public class User {
 
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
+
     private String phone;
     private LocalDate dob;
     private String address;
 
-    private boolean emailVerified;
-
+    private boolean emailVerified = false;
 
     @Column(nullable = false)
-    private String role; // ✅ NO DEFAULT
+    private String role; // ROLE_STUDENT / ROLE_TEACHER / ROLE_ADMIN
 
-    public String getPhone() {
-		return phone;
-	}
+    private boolean enabled = true;
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public LocalDate getDob() {
-		return dob;
-	}
-
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public boolean isEmailVerified() {
-		return emailVerified;
-	}
-
-	public void setEmailVerified(boolean emailVerified) {
-		this.emailVerified = emailVerified;
-	}
-
-	@Lob
-    @Column(columnDefinition = "LONGBLOB")
+    // ✅ PHOTO FIELD (THIS FIXES user.getPhoto() ERROR)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
-    public byte[] getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
-
-	private boolean enabled;
+    // OTP
     @Column(name = "otp")
     private String otp;
 
     @Column(name = "otp_expiry")
     private LocalDateTime otpExpiry;
 
-
-	public String getOtp() {
-		return otp;
-	}
-
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
-
-	public LocalDateTime getOtpExpiry() {
-		return otpExpiry;
-	}
-
-	public void setOtpExpiry(LocalDateTime otpExpiry) {
-		this.otpExpiry = otpExpiry;
-	}
-
-	// 🔴 REQUIRED BY SPRING (MOST IMPORTANT)
+    // 🔴 REQUIRED NO-ARGS CONSTRUCTOR
     public User() {
     }
 
-    // Optional constructor
-    public User(String name, String email, String password) {
+    // OPTIONAL CONSTRUCTOR
+    public User(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
+        this.enabled = true;
     }
 
-    // Getters & Setters
+    // ===== GETTERS & SETTERS =====
+
     public Long getId() {
         return id;
     }
@@ -141,6 +92,38 @@ public class User {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
     public String getRole() {
         return role;
     }
@@ -155,5 +138,30 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    // ✅ PHOTO METHODS (NO ERROR NOW)
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public LocalDateTime getOtpExpiry() {
+        return otpExpiry;
+    }
+
+    public void setOtpExpiry(LocalDateTime otpExpiry) {
+        this.otpExpiry = otpExpiry;
     }
 }

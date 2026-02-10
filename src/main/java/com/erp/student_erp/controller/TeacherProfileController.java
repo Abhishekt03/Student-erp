@@ -5,15 +5,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.erp.student_erp.entity.User;
@@ -21,17 +17,21 @@ import com.erp.student_erp.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/teacher/profile")
+@PreAuthorize("hasAuthority('ROLE_TEACHER')")
 public class TeacherProfileController {
 
     private final UserRepository userRepository;
 
-    // ✅ THIS CONSTRUCTOR IS MANDATORY
     public TeacherProfileController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @GetMapping
     public ResponseEntity<?> profile(Authentication auth) {
+
+        if (auth == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
 
         User user = userRepository.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -50,6 +50,10 @@ public class TeacherProfileController {
 
     @GetMapping("/photo")
     public ResponseEntity<byte[]> getPhoto(Authentication auth) throws IOException {
+
+        if (auth == null) {
+            return ResponseEntity.status(401).build();
+        }
 
         User user = userRepository.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -71,6 +75,10 @@ public class TeacherProfileController {
     public ResponseEntity<?> uploadPhoto(
             @RequestParam("photo") MultipartFile file,
             Authentication auth) throws IOException {
+
+        if (auth == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
 
         User user = userRepository.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("User not found"));

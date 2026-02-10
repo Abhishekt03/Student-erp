@@ -2,11 +2,10 @@ package com.erp.student_erp.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,34 +20,27 @@ import com.erp.student_erp.userDTO.OtpRequest;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
-	
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
-    private final AuthService authService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public AuthController(
-            AuthenticationManager authenticationManager,
-            JwtService jwtService,
-            AuthService authService) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.authService = authService;
-    }
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private AuthService authService;
 
     // ✅ REGISTER
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         authService.register(user);
-        return ResponseEntity.ok("Registration Successfully" + "");
+        return ResponseEntity.ok("Registration successful. Verify OTP.");
     }
 
-    // ✅ SEND / RESEND OTP
+    // ✅ SEND OTP
     @PostMapping("/send-otp")
     public ResponseEntity<String> sendOtp(@RequestBody OtpRequest request) {
         authService.sendOtp(request.getEmail());
@@ -62,12 +54,25 @@ public class AuthController {
         return ResponseEntity.ok("Email verified successfully");
     }
 
-    // ✅ LOGIN
+    // ✅ LOGIN (FIXED)
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email"));
+        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(401).body("Invalid email");
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.isEmailVerified()) {
+            return ResponseEntity.status(403).body("Email not verified");
+        }
+
+        if (!user.isEnabled()) {
+            return ResponseEntity.status(403).body("Account disabled");
+        }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return ResponseEntity.status(401).body("Invalid password");
@@ -75,8 +80,7 @@ public class AuthController {
 
         String token = jwtService.generateToken(
                 user.getEmail(),
-                user.getRole()
-        );
+                user.getRole());
 
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
@@ -84,5 +88,4 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
-
 }

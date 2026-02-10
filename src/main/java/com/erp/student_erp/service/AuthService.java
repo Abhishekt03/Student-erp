@@ -1,6 +1,7 @@
 package com.erp.student_erp.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.erp.student_erp.entity.User;
 import com.erp.student_erp.repository.UserRepository;
-import com.erp.student_erp.security.JwtUtil;
 
 @Service
 public class AuthService {
@@ -17,70 +17,44 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     // ✅ REGISTER
     public void register(User user) {
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered");
-        }
-
-        // ✅ FIX: SET USERNAME IF NULL
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getEmail().split("@")[0]);
-        }
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(user.getRole() == null ? "ROLE_STUDENT" : user.getRole());
 
-        if (user.getRole() == null || user.getRole().isBlank()) {
-            user.setRole("ROLE_STUDENT");
-        } else if (user.getRole().equalsIgnoreCase("STUDENT")) {
-            user.setRole("ROLE_STUDENT");
-        } else if (user.getRole().equalsIgnoreCase("TEACHER")) {
-            user.setRole("ROLE_TEACHER");
-        } else {
-            throw new RuntimeException("Invalid role");
-        }
-
-        user.setEnabled(true);
+        user.setEnabled(false);
+        user.setEmailVerified(false);
 
         userRepository.save(user);
     }
 
-
-
-
-    // ✅ SEND OTP (RESEND)
+    // ✅ SEND OTP
     public void sendOtp(String email) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (user.isEnabled()) {
-            throw new RuntimeException("User already verified");
-        }
+        String otp = String.valueOf(new Random().nextInt(900000) + 100000);
 
-       
+        user.setOtp(otp);
+        user.setOtpExpiry(LocalDateTime.now().plusMinutes(5));
+
         userRepository.save(user);
+
+        System.out.println("OTP = " + otp); // replace with email service
     }
 
-    // ✅ VERIFY OTP
+    // ✅ VERIFY OTP (FIXED)
     public void verifyOtp(String email, String otp) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (user.isEnabled()) {
-            throw new RuntimeException("User already verified");
-        }
-
-        if (!otp.equals(user.getOtp())) {
+        if (user.getOtp() == null || !user.getOtp().equals(otp)) {
             throw new RuntimeException("Invalid OTP");
         }
 
@@ -88,29 +62,11 @@ public class AuthService {
             throw new RuntimeException("OTP expired");
         }
 
+        user.setEmailVerified(true);
         user.setEnabled(true);
         user.setOtp(null);
         user.setOtpExpiry(null);
+
         userRepository.save(user);
     }
-
-    // ✅ LOGIN
-    public String login(String email, String password) {
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!user.isEnabled()) {
-            throw new RuntimeException("Please verify OTP first");
-        }
-
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
-    }
-
-    // 🔁 COMMON OTP METHOD
-  
 }
