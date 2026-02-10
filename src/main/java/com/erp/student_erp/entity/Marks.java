@@ -57,11 +57,11 @@ public class Marks {
 	}
 
 	public int getExternal() {
-		return external;
+		return external_marks;
 	}
 
-	public void setExternal(int external) {
-		this.external = external;
+	public void setExternal(int external_marks) {
+		this.external_marks = external_marks;
 	}
 
 	public int getTotal() {
@@ -81,7 +81,7 @@ public class Marks {
 	}
 
 	private int internal;
-	private int external;
+	private int external_marks;
 	private int total;
 	private String grade;
 }
