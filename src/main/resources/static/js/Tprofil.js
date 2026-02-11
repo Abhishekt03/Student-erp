@@ -47,7 +47,7 @@ function uploadPhoto() {
     const formData = new FormData();
     formData.append("photo", file);
 
-    fetch("http://localhost:8080/api/teacher/profile/photo", {
+    fetch("/api/teacher/profile/photo", {
         method: "POST",
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
