@@ -5,7 +5,7 @@ async function login() {
 
     try {
         const response = await fetch(
-            "https://student-erp-1.onrender.com/api/auth/login",
+            "/api/auth/login",
             {
                 method: "POST",
                 headers: {
