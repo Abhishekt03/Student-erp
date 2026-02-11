@@ -14,7 +14,6 @@ import com.erp.student_erp.repository.UserRepository;
 import com.erp.student_erp.security.JwtService;
 import com.erp.student_erp.service.AuthService;
 import com.erp.student_erp.userDTO.LoginRequest;
-import com.erp.student_erp.userDTO.OtpRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -41,18 +40,6 @@ public class AuthController {
     }
 
     // ✅ SEND OTP
-    @PostMapping("/send-otp")
-    public ResponseEntity<String> sendOtp(@RequestBody OtpRequest request) {
-        authService.sendOtp(request.getEmail());
-        return ResponseEntity.ok("OTP sent successfully");
-    }
-
-    // ✅ VERIFY OTP
-    @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOtp(@RequestBody OtpRequest request) {
-        authService.verifyOtp(request.getEmail(), request.getOtp());
-        return ResponseEntity.ok("Email verified successfully");
-    }
 
     // ✅ LOGIN (FIXED)
     @PostMapping("/login")
@@ -65,10 +52,6 @@ public class AuthController {
         }
 
         User user = optionalUser.get();
-
-        if (!user.isEmailVerified()) {
-            return ResponseEntity.status(403).body("Email not verified");
-        }
 
         if (!user.isEnabled()) {
             return ResponseEntity.status(403).body("Account disabled");
