@@ -26,8 +26,9 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(user.getRole() == null ? "ROLE_STUDENT" : user.getRole());
 
-        user.setEnabled(false);
-        user.setEmailVerified(false);
+        user.setEnabled(true);
+
+        user.setEmailVerified(true);
 
         userRepository.save(user);
     }
