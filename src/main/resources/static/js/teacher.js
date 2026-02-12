@@ -1,7 +1,7 @@
 // ===============================
 // AUTH CHECK
 // ===============================
-const token = localStorage.getItem("token");
+
 
 
 // ===============================
@@ -16,7 +16,7 @@ function addCourse() {
     fetch("/api/teacher/courses", {
         method: "POST",
         headers: {
-            "Authorization": "Bearer " + token,
+            "Authorization": "Bearer " + window.token,
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ title, description })
@@ -35,7 +35,7 @@ function addCourse() {
 // ===============================
 function loadCourseList() {
     fetch("/api/teacher/courses", {
-        headers: { "Authorization": "Bearer " + token }
+        headers: { "Authorization": "Bearer " + window.token }
     })
     .then(res => {
         if (res.status === 204) return [];
@@ -66,7 +66,7 @@ function loadCourses() {
     if (!select) return;
 
     fetch("/api/teacher/courses", {
-        headers: { "Authorization": "Bearer " + token }
+        headers: { "Authorization": "Bearer " + window.token }
     })
     .then(res => {
         if (res.status === 204) return [];
@@ -88,7 +88,7 @@ function loadStudents() {
     if (!courseId) return;
 
     fetch(`/api/teacher/students?courseId=${courseId}`, {
-        headers: { "Authorization": "Bearer " + token }
+        headers: { "Authorization": "Bearer " + window.token }
     })
     .then(res => res.json())
     .then(students => {
@@ -123,7 +123,7 @@ function markAttendance(studentId, status) {
 
     fetch(`/api/teacher/attendance?studentId=${studentId}&courseId=${courseId}&status=${status}`, {
         method: "POST",
-        headers: { "Authorization": "Bearer " + token }
+        headers: { "Authorization": "Bearer " + window.token }
     })
     .then(res => res.text())
     .then(msg => alert(msg || "Attendance marked"));
@@ -136,7 +136,7 @@ function uploadMarks() {
     fetch("/api/teacher/marks", {
         method: "POST",
         headers: {
-            "Authorization": "Bearer " + token,
+            "Authorization": "Bearer " + window.token,
             "Content-Type": "application/json"
         },
         body: JSON.stringify({

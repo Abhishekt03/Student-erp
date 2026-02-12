@@ -2,7 +2,7 @@
 // TEACHER PROFILE
 // ===============================
 
-const token = localStorage.getItem("token");
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadProfile() {
     fetch("/api/teacher/profile", {
         headers: {
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + window.token
         }
     })
     .then(res => {
@@ -47,7 +47,7 @@ function openFilePicker() {
 function loadPhoto() {
     fetch("/api/teacher/profile/photo", {
         headers: {
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + window.token
         }
     })
     .then(res => {
@@ -74,7 +74,7 @@ function uploadPhoto() {
     fetch("/api/teacher/profile/photo", {
         method: "POST",
         headers: {
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + window.token
         },
         body: formData
     })
